@@ -1,13 +1,16 @@
-security:
-  oauth2:
-    client:
-      clientId: account-service
-      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
-      accessTokenUri: http://auth-service:5000/uaa/oauth/token
-      grant-type: client_credentials
-      scope: server
-
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          account-service:
+            client-id: account-service
+            client-secret: ${ACCOUNT_SERVICE_PASSWORD}
+            authorization-grant-type: client_credentials
+            scope: server
+        provider:
+          account-service:
+            token-uri: http://auth-service:5000/uaa/oauth2/token
   data:
     mongodb:
       host: account-mongodb
@@ -22,5 +25,5 @@ server:
   port: 6000
 
 feign:
-  hystrix:
+  circuitbreaker:
     enabled: true

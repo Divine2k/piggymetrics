@@ -1,25 +1,25 @@
 package com.piggymetrics.statistics.config;
 
-import com.piggymetrics.statistics.service.security.CustomUserInfoTokenServices;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * @author cdov
- */
-@EnableResourceServer
 @Configuration
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    @Autowired
-    private ResourceServerProperties sso;
+@EnableWebSecurity
+@EnableMethodSecurity
+public class ResourceServerConfig {
 
     @Bean
-    public ResourceServerTokenServices tokenServices() {
-        return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}));
+        return http.build();
     }
 }

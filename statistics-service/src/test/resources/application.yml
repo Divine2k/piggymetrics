@@ -7,10 +7,30 @@ hystrix:
             timeoutInMilliseconds: 20000
 
 spring:
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
   data:
     mongodb:
       database: piggymetrics
       port: 0
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:${local.server.port:0}/oauth2/jwks
 
 rates:
   url: https://api.exchangeratesapi.io
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 6.0.9
+
+eureka:
+  client:
+    enabled: false

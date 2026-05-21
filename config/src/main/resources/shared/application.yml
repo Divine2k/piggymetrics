@@ -2,14 +2,6 @@ logging:
   level:
     org.springframework.security: INFO
 
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 10000
-
 eureka:
   instance:
     prefer-ip-address: true
@@ -17,11 +9,11 @@ eureka:
     serviceUrl:
       defaultZone: http://registry:8761/eureka/
 
-security:
-  oauth2:
-    resource:
-      user-info-uri: http://auth-service:5000/uaa/users/current
-
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://auth-service:5000/uaa/oauth2/jwks
   rabbitmq:
     host: rabbitmq

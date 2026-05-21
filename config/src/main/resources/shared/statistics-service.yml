@@ -1,13 +1,16 @@
-security:
-  oauth2:
-    client:
-      clientId: statistics-service
-      clientSecret: ${STATISTICS_SERVICE_PASSWORD}
-      accessTokenUri: http://auth-service:5000/uaa/oauth/token
-      grant-type: client_credentials
-      scope: server
-
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          statistics-service:
+            client-id: statistics-service
+            client-secret: ${STATISTICS_SERVICE_PASSWORD}
+            authorization-grant-type: client_credentials
+            scope: server
+        provider:
+          statistics-service:
+            token-uri: http://auth-service:5000/uaa/oauth2/token
   data:
     mongodb:
       host: statistics-mongodb

@@ -1,5 +1,32 @@
 spring:
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
   data:
     mongodb:
       database: piggymetrics
-      port: 0
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:${local.server.port:0}/oauth2/jwks
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 6.0.9
+
+eureka:
+  client:
+    enabled: false
+
+logging:
+  level:
+    org.springframework.security: TRACE
+
+ACCOUNT_SERVICE_PASSWORD: accsvc
+STATISTICS_SERVICE_PASSWORD: statsvc
+NOTIFICATION_SERVICE_PASSWORD: notifsvc

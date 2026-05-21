@@ -1,5 +1,35 @@
 spring:
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
   data:
     mongodb:
       database: piggymetrics
       port: 0
+  security:
+    oauth2:
+      client:
+        registration:
+          account-service:
+            client-id: account-service
+            client-secret: accsvc
+            authorization-grant-type: client_credentials
+            scope: server
+        provider:
+          account-service:
+            token-uri: http://localhost:0/oauth2/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:${local.server.port:0}/oauth2/jwks
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 6.0.9
+
+eureka:
+  client:
+    enabled: false

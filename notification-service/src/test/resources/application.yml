@@ -12,6 +12,11 @@ backup:
     attachment: backup.json
 
 spring:
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
   data:
     mongodb:
       database: piggymetrics
@@ -31,3 +36,28 @@ spring:
             fallback: false
           ssl:
             enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+          notification-service:
+            client-id: notification-service
+            client-secret: notifsvc
+            authorization-grant-type: client_credentials
+            scope: server
+        provider:
+          notification-service:
+            token-uri: http://localhost:0/oauth2/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:${local.server.port:0}/oauth2/jwks
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 6.0.9
+
+eureka:
+  client:
+    enabled: false
